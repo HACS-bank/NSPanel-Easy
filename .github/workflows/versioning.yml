@@ -167,12 +167,12 @@ jobs:
           VERSION_YEAR=$(echo "$CURRENT_VERSION" | awk -F. '{print $1}')
           VERSION_MONTH=$(echo "$CURRENT_VERSION" | awk -F. '{print $2}')
 
-          # Increment sequence or reset for a new month
+          # Increment sequence or reset to 0 for a new month (first release is YYYY.M.0)
           if [[ "$CURRENT_YEAR" == "$VERSION_YEAR" \
              && "$CURRENT_MONTH" == "$VERSION_MONTH" ]]; then
             NEXT_SEQ=$((CURRENT_SEQ + 1))
           else
-            NEXT_SEQ=1
+            NEXT_SEQ=0
           fi
 
           NEXT_VERSION="${CURRENT_YEAR}.${CURRENT_MONTH}.${NEXT_SEQ}"
