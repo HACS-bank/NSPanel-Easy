@@ -26,11 +26,11 @@ globals:
   - id: climate_backup_active  # True while the backup relays follow the embedded thermostat
     type: bool
     restore_value: false
-    initial_value: 'false'
+    initial_value: false
   - id: climate_backup_last_ha_ms  # Last time (millis) Home Assistant was seen connected
     type: uint32_t
     restore_value: false
-    initial_value: '0'
+    initial_value: 0
 
 climate:
   - id: !extend thermostat_embedded
