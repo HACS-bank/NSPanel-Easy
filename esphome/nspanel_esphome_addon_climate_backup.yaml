@@ -38,6 +38,17 @@ climate:
       then:
         - script.execute: climate_backup_sync
 
+switch:
+  # While the backup is active, the thermostat owns the backup relays: revert any external change (e.g. hardware buttons)
+  - id: !extend relay_${backup_heater_relay}
+    on_state:
+      then:
+        - script.execute: climate_backup_sync
+  - id: !extend relay_${backup_cooler_relay}
+    on_state:
+      then:
+        - script.execute: climate_backup_sync
+
 script:
   # Evaluated on API connect/disconnect and on every watchdog round
   - id: !extend update_flag_api_ready
@@ -75,12 +86,13 @@ script:
           const climate::ClimateAction action = thermostat_embedded->action;
           const bool heating = (action == climate::CLIMATE_ACTION_HEATING);
           const bool cooling = (action == climate::CLIMATE_ACTION_COOLING);
-          if (heating != relay_${backup_heater_relay}->state) {
+          // Relay 0 is the dummy switch: skip it, as its state cannot be changed
+          if ((${backup_heater_relay} != 0) and (heating != relay_${backup_heater_relay}->state)) {
             ESP_LOGI("${TAG_ADDON_CLIMATE_BACKUP}", "Heater relay: %s", heating ? "ON" : "OFF");
             relay_${backup_heater_relay}->control(heating);
-          }  // if (heating != relay_${backup_heater_relay}->state)
-          if (cooling != relay_${backup_cooler_relay}->state) {
+          }  // if ((${backup_heater_relay} != 0) and (heating != relay_${backup_heater_relay}->state))
+          if ((${backup_cooler_relay} != 0) and (cooling != relay_${backup_cooler_relay}->state)) {
             ESP_LOGI("${TAG_ADDON_CLIMATE_BACKUP}", "Cooler relay: %s", cooling ? "ON" : "OFF");
             relay_${backup_cooler_relay}->control(cooling);
-          }  // if (cooling != relay_${backup_cooler_relay}->state)
+          }  // if ((${backup_cooler_relay} != 0) and (cooling != relay_${backup_cooler_relay}->state))
 ...

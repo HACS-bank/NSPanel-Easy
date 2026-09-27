@@ -106,7 +106,7 @@ When Home Assistant is back, the backup relays are turned off and control return
 > [!IMPORTANT]
 > This package requires one of the climate add-ons (`heat`, `cool` or `dual`).
 > The embedded thermostat must be left in an active mode (e.g. preset `Home`), otherwise there is nothing to mirror during an outage.
-> The backup relay should be dedicated to this purpose, as it is still exposed to Home Assistant and to the hardware buttons.
+> The backup relay should be dedicated to this purpose. While the backup is active, any external change to it (e.g. from the hardware buttons) is reverted to match the embedded thermostat.
 
 <!-- markdownlint-disable MD013 -->
 | Key | Required | Supported values | Default | Description |
