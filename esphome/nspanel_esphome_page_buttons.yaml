@@ -99,10 +99,12 @@ script:
       # directly while spacing-deferred entries are still waiting is queued behind
       # them, and its ack removes an entry that was never sent, so one component
       # keeps its previous appearance. The timeout keeps a stuck entry from
-      # blocking the render.
+      # blocking the render, and a page change ends the wait right away, as the
+      # render below is skipped anyway and the queue may already hold the new
+      # page's commands.
       - wait_until:
           condition:
-            lambda: return disp1->queue_size() == 0;
+            lambda: return (current_page_id != page_id) or (disp1->queue_size() == 0);
           timeout: ${BUTTON_RENDER_QUEUE_TIMEOUT}
       - lambda: |-
           if (current_page_id != page_id) return;
