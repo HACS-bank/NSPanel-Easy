@@ -1,0 +1,23 @@
+# Climate Control if API down
+substitutions:
+  backup_heater_relay: 1 # 0 if not required, 1 or 2
+  backup_cooler_relay: 0 # 0 if not required, 1 or 2
+
+esphome:
+  build_flags:
+    - -D NSPANEL_EASY_ADDON_CLIMATE_BACKUP
+
+api:
+  on_client_connected: !extend 
+    then:
+      - lambda: |-
+          if(heater_relay != 0) {heater_relay = "0"; ESP_LOGV("CLIMATE_BACKUP", "Set heater_relay to %i", heater_relay);}
+          if(cooler_relay != 0) {cooler_relay = "0"; ESP_LOGV("CLIMATE_BACKUP", "Set cooler_relay to %i", cooler_relay);}
+  on_client_disconnected: !extend 
+    then:
+      - lambda: |-
+          if (backup_heater_relay != 0) {heater_relay = ${backup_heater_relay}; ESP_LOGV("CLIMATE_BACKUP", "Set heater_relay to %i", heater_relay);}
+          if (backup_cooler_relay != 0) {cooler_relay = ${backup_cooler_relay}; ESP_LOGV("CLIMATE_BACKUP", "Set cooler_relay to %i", cooler_relay);}
+
+packages:
+  climate_dual_package: !include nspanel_esphome_addon_climate_dual.yaml
