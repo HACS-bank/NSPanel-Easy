@@ -26,7 +26,7 @@ globals:
   - id: climate_backup_active  # True while the backup relays follow the embedded thermostat
     type: bool
     restore_value: false
-    initial_value: false
+    initial_value: 'false'  # Booleans must be quoted (ESPHome expects a string)
   - id: climate_backup_last_ha_ms  # Last time (millis) Home Assistant was seen connected
     type: uint32_t
     restore_value: false
