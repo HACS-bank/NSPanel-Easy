@@ -1,0 +1,20 @@
+binary_sensor:
+  - id: !extend right_button
+    on_multi_click:
+      # Hold the right hardware button for 10s to toggle Wi-Fi (for testing the climate backup)
+      - timing:
+          - ON for at least 10s
+        then:
+          - if:
+              condition:
+                wifi.enabled:
+              then:
+                - logger.log:
+                    level: WARN
+                    format: "Wi-Fi disabled by holding the right button"
+                - wifi.disable:
+              else:
+                - logger.log:
+                    level: WARN
+                    format: "Wi-Fi enabled by holding the right button"
+                - wifi.enable:
