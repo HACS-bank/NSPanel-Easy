@@ -82,6 +82,15 @@ script:
     mode: queued
     then:
       - lambda: |-
+          // Build-time validation of the relay selection (0 means disabled)
+          static_assert((${backup_heater_relay} == 0) or (${backup_heater_relay} != ${backup_cooler_relay}),
+                        "backup_heater_relay and backup_cooler_relay must select different relays");
+          static_assert((${backup_heater_relay} == 0) or
+                            ((${backup_heater_relay} != ${heater_relay}) and (${backup_heater_relay} != ${cooler_relay})),
+                        "backup_heater_relay must not be used by heater_relay or cooler_relay");
+          static_assert((${backup_cooler_relay} == 0) or
+                            ((${backup_cooler_relay} != ${heater_relay}) and (${backup_cooler_relay} != ${cooler_relay})),
+                        "backup_cooler_relay must not be used by heater_relay or cooler_relay");
           if (!id(climate_backup_active)) return;
           const climate::ClimateAction action = thermostat_embedded->action;
           const bool heating = (action == climate::CLIMATE_ACTION_HEATING);

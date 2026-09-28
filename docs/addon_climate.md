@@ -104,7 +104,8 @@ When Home Assistant has been unavailable for longer than `climate_backup_delay`,
 When Home Assistant is back, the backup relays are turned off and control returns to Home Assistant.
 
 > [!IMPORTANT]
-> This package requires one of the climate add-ons (`heat`, `cool` or `dual`).
+> This package requires one of the climate add-ons (`heat`, `cool` or `dual`) to be included as well; otherwise ESPHome reports `Source for extension of ID 'relay_0' was not found`.
+> The backup relays must be different from each other and from `heater_relay` / `cooler_relay`; this is checked at build time.
 > The embedded thermostat must be left in an active mode (e.g. preset `Home`), otherwise there is nothing to mirror during an outage.
 > The backup relay should be dedicated to this purpose. While the backup is active, any external change to it (e.g. from the hardware buttons) is reverted to match the embedded thermostat.
 
