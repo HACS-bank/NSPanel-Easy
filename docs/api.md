@@ -910,7 +910,7 @@ Indicates the icon displayed next to the value.
 action: esphome.<your_panel_name>_value
 data:
   id: "sensor.temperature"
-  icon: "\uE6E8"           # Example for mdi:thermometer
+  icon: "\uE50E"           # Example for mdi:thermometer
   icon_color: [255, 0, 0]  # Red
   name: "Temperature"
   value: "75°F"
