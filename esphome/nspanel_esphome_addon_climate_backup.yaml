@@ -32,12 +32,6 @@ globals:
     restore_value: false
     initial_value: '0'  # Must be quoted: ESPHome expects the C++ initializer as a string
 
-api:
-  reboot_timeout: 120min # reboot will restart timer so increase from default 60min
-
-wifi:
-  reboot_timeout: 90min # reboot will restart timer so increase from default 15min
-
 climate:
   - id: !extend thermostat_embedded
     on_state:
