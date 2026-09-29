@@ -15,7 +15,7 @@ substitutions:
   ##############################
   backup_heater_relay: "0"      # Relay (1 or 2) driven by heat actions while HA is unavailable, or "0" to disable
   backup_cooler_relay: "0"      # Relay (1 or 2) driven by cool actions while HA is unavailable, or "0" to disable
-  climate_backup_delay: "300"   # Seconds without Home Assistant before the backup takes over
+  climate_backup_delay: "300"   # Seconds without Home Assistant before the backup takes over, allows time for boot checks 
   TAG_ADDON_CLIMATE_BACKUP: nspanel.addon.climate.backup
 
 esphome:
@@ -31,6 +31,12 @@ globals:
     type: uint32_t
     restore_value: false
     initial_value: '0'  # Must be quoted: ESPHome expects the C++ initializer as a string
+
+api:
+  reboot_timeout: 120min # reboot will restart timer so increase from default 60min
+
+wifi:
+  reboot_timeout: 90min # reboot will restart timer so increase from default 15min
 
 climate:
   - id: !extend thermostat_embedded
