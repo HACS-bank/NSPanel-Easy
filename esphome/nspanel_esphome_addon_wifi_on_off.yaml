@@ -3,7 +3,7 @@ binary_sensor:
     on_multi_click:
       # Hold the right hardware button for 10s to toggle Wi-Fi (for testing the climate backup)
       - timing:
-          - ON for at least 10s
+          - ON for at least 3s
         then:
           - if:
               condition:
