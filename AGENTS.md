@@ -68,7 +68,7 @@ When a change affects a feature that is only included by specific packages (clim
   - `min_version` (Home Assistant) in the Blueprint header.
   - `min_esphome_version` in the Blueprint variables, when the Blueprint needs a newer ESPHome firmware (e.g. a new API action or a new field in an existing one).
   - Set `min_blueprint_version` or `min_esphome_version` to `next` to require the release being created; the versioning workflow resolves it.
-- API actions are versioned as `api_version_major`/`api_version_minor`, in `esphome/nspanel_esphome_version.yaml` (provided by the firmware) and in the Blueprint variables (used by the Blueprint):
+- API actions are versioned as `api_version`: `"MAJOR.MINOR"` in `esphome/nspanel_esphome_version.yaml` (provided by the firmware) and `[MAJOR, MINOR]` in the Blueprint variables (used by the Blueprint):
   - Adding an action: bump the firmware MINOR. When the Blueprint starts calling it, raise the Blueprint MINOR and set `min_esphome_version` to `next`, as only panel events carry the API version.
   - Removing an action or changing its parameters: bump MAJOR (and reset MINOR to 0) in both, and set `min_blueprint_version` to `next`.
 - Never use `yq` for in-place writes on `nspanel_easy_blueprint.yaml` (corrupts Unicode escapes),

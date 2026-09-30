@@ -250,7 +250,7 @@ For advanced users, the Blueprint can run your own actions when it detects a ver
 | Blueprint outdated | The firmware requires a newer Blueprint. Runs when the panel boots and reports its versions. |
 
 The Blueprint variables are available in your templates,
-including `blueprint_version`, `min_esphome_version_string`, `api_version_parts`, `nspanel_name`, `nspanel_full_name` and `nspanel_deviceid`.
+including `blueprint_version`, `min_esphome_version_string`, `api_version`, `nspanel_name`, `nspanel_full_name` and `nspanel_deviceid`.
 The description of each input in the Blueprint lists the variables relevant to it.
 
 These actions run inside the Blueprint, so an error stops the current run, and waits or delays hold it.

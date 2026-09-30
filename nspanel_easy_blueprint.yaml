@@ -4632,9 +4632,9 @@ blueprint:
 
             - `min_esphome_version_string`: the minimum firmware version this Blueprint requires.
 
-            - `api_version_parts`: the API version this Blueprint uses, as `[major, minor]`.
+            - `api_version`: the API version this Blueprint uses, as `[major, minor]`.
 
-            - `esphome_api_version_parts`: the API version reported by the firmware as `[major, minor]`, when
+            - `esphome_api_version`: the API version reported by the firmware as `[major, minor]`, when
             the run was started by a panel event (empty otherwise).
 
             - `blueprint_version`: this Blueprint's version, the recommended version to update the firmware
@@ -4707,7 +4707,7 @@ blueprint:
 
             - `versions.esphome`: the firmware version reported by the panel.
 
-            - `api_version_parts` and `esphome_api_version_parts`: the API version used by this Blueprint and
+            - `api_version` and `esphome_api_version`: the API version used by this Blueprint and
             the one reported by the firmware, as `[major, minor]`.
 
             - `nspanel_name`, `nspanel_full_name` and `nspanel_deviceid`: the panel's identification, as
@@ -4996,12 +4996,11 @@ variables:
   # being released. Releases that keep the contract leave it unchanged, so older firmware keeps working.
   min_esphome_version: next
 
-  # API version (MAJOR.MINOR) this Blueprint uses, matching the same keys in
+  # API version [MAJOR, MINOR] this Blueprint uses, matching api_version in
   # esphome/nspanel_esphome_version.yaml. Raise MINOR when the Blueprint starts calling a new API action,
   # and MAJOR when it follows a firmware change that removed an action or changed its parameters.
-  # Kept as two integers: a version like "1.10" would be converted to the number 1.1.
-  api_version_major: 1
-  api_version_minor: 0
+  # Kept as a list: Home Assistant would convert "1.10" to the number 1.1.
+  api_version: [1, 0]
 
   # Firmware version as reported by the ESPHome integration in the device registry.
   # Format: "<project_version> (ESPHome <compiler_version>)", e.g. "2026.8.5 (ESPHome 2026.6.0)".
@@ -5042,12 +5041,11 @@ variables:
     }}
   # Resolved minimum version, for notifications and custom actions.
   min_esphome_version_string: "{{ min_esphome_version_parts | join('.') }}"
-  api_version_parts: '{{ [api_version_major | int, api_version_minor | int] }}'
   # API version reported by the firmware, parsed into [MAJOR, MINOR]. Only panel
   # events carry it, so it is empty for runs started by any other trigger, and for
   # firmware that does not report it yet.
   # Kept as a list: a rendered "1.10" would be converted to the number 1.1.
-  esphome_api_version_parts: >-
+  esphome_api_version: >-
     {%- set raw = (
       trigger.event.data.api_version | default('', true) | string
       if trigger is defined and trigger.id == 'nspanel_event'
@@ -5064,19 +5062,19 @@ variables:
   # Blueprint calls may not exist yet).
   esphome_api_outdated: >-
     {{
-      esphome_api_version_parts | count == 2
+      esphome_api_version | count == 2
       and (
-        esphome_api_version_parts[0] < api_version_parts[0]
-        or (esphome_api_version_parts[0] == api_version_parts[0]
-            and esphome_api_version_parts[1] < api_version_parts[1])
+        esphome_api_version[0] < api_version[0]
+        or (esphome_api_version[0] == api_version[0]
+            and esphome_api_version[1] < api_version[1])
       )
     }}
   # The firmware removed or changed actions this Blueprint calls (a newer API
   # MAJOR), so the Blueprint must be updated.
   blueprint_api_outdated: >-
     {{
-      esphome_api_version_parts | count == 2
-      and esphome_api_version_parts[0] > api_version_parts[0]
+      esphome_api_version | count == 2
+      and esphome_api_version[0] > api_version[0]
     }}
   # ESPHome must be equal to or newer than min_esphome_version and, when reported,
   # provide the API version this Blueprint uses. The documented update order is
@@ -7064,9 +7062,9 @@ actions:
             - Required version: {{ min_esphome_version_string }} or newer
 
             - Recommended version: {{ blueprint_version }} (same as the Blueprint)
-            {% if esphome_api_version_parts | count == 2 %}
+            {% if esphome_api_version | count == 2 %}
 
-            - API version: {{ esphome_api_version_parts | join('.') }} (Blueprint requires {{ api_version_parts | join('.') }})
+            - API version: {{ esphome_api_version | join('.') }} (Blueprint requires {{ api_version | join('.') }})
             {% endif %}
 
             ---
@@ -7114,9 +7112,9 @@ actions:
             **{{ nspanel_full_name }}**, so the Blueprint has stopped to avoid calling API actions this
             firmware no longer supports.
 
-            - Current Blueprint version: {{ blueprint_version }} (API {{ api_version_parts | join('.') }})
+            - Current Blueprint version: {{ blueprint_version }} (API {{ api_version | join('.') }})
 
-            - ESPHome firmware version: {{ esphome_version_string if esphome_version_string | length > 0 else "Unknown" }} (API {{ esphome_api_version_parts | join('.') }})
+            - ESPHome firmware version: {{ esphome_version_string if esphome_version_string | length > 0 else "Unknown" }} (API {{ esphome_api_version | join('.') }})
 
             ---
 

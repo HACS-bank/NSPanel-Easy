@@ -180,6 +180,14 @@ inline void feed_wdt_delay(uint32_t ms = 5) {
 extern std::string cached_device_name;
 
 /**
+ * @brief API version (MAJOR.MINOR) provided by this firmware.
+ *
+ * Set from the `api_version` substitution during boot (see nspanel_esphome_version.yaml).
+ * While set, fire_ha_event() adds it to every event, so the Blueprint can check it before calling any action.
+ */
+extern const char *firmware_api_version;
+
+/**
  * @brief How a button bound to an unavailable entity is rendered.
  *
  * Applies to every per-entity button surface: the button pages, the climate
