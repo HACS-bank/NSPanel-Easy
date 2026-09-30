@@ -1,6 +1,0 @@
----
-packages:
-  ard_common: !include esphome_ard_common.yaml
-  basic_package: !include ../nspanel_esphome.yaml  # Core package
-  addon_climate_cool: !include ../esphome/nspanel_esphome_addon_bluetooth_proxy.yaml
-...
