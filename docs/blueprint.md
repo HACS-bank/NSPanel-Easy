@@ -231,6 +231,10 @@ This minimum only changes when a release makes the Blueprint depend on a newer f
 so updating the Blueprint does not always require updating the firmware.
 Keeping all components on the same version is still recommended.
 
+The firmware also reports its API version in every event it sends to Home Assistant.
+When the firmware has removed or changed API actions this Blueprint calls, the Blueprint stops and asks for a Blueprint update.
+This check cannot be bypassed, as the Blueprint would only call actions the firmware no longer supports.
+
 Enable this option to keep the Blueprint running while you update your firmware.
 Features that need a newer firmware will not work until the update is completed,
 and the version mismatch notification is still created.
@@ -246,7 +250,7 @@ For advanced users, the Blueprint can run your own actions when it detects a ver
 | Blueprint outdated | The firmware requires a newer Blueprint. Runs when the panel boots and reports its versions. |
 
 The Blueprint variables are available in your templates,
-including `blueprint_version`, `min_esphome_version_string`, `nspanel_name`, `nspanel_full_name` and `nspanel_deviceid`.
+including `blueprint_version`, `min_esphome_version_string`, `api_version_parts`, `nspanel_name`, `nspanel_full_name` and `nspanel_deviceid`.
 The description of each input in the Blueprint lists the variables relevant to it.
 
 These actions run inside the Blueprint, so an error stops the current run, and waits or delays hold it.

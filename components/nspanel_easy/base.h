@@ -213,10 +213,10 @@ extern bool unavailable_unhide_pending;
 /**
  * @brief Fire a Home Assistant event for NSPanel HA Blueprint
  *
- * Automatically adds device_name and type to the event data.
+ * Automatically adds device_name, type and, when available, api_version to the event data.
  *
  * @param type Event type (e.g., "button_click", "page_changed", "boot")
- * @param data Additional event data (device_name and type added automatically)
+ * @param data Additional event data (device_name, type and api_version added automatically)
  *
  * @note The event name is automatically set to "esphome.nspanel_easy"
  * @note Call init_device_name_cache() during boot before using this function

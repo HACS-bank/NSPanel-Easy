@@ -12,6 +12,14 @@ SystemFlags system_flags{};
 // Define the global blueprint status flags variable (starts with all flags false via default constructor)
 BlueprintStatusFlags blueprint_status_flags{};
 
+#if defined(NSPANEL_EASY_API_VERSION_MAJOR) && defined(NSPANEL_EASY_API_VERSION_MINOR)
+#define NSPANEL_EASY_STRINGIFY_(x) #x
+#define NSPANEL_EASY_STRINGIFY(x) NSPANEL_EASY_STRINGIFY_(x)
+// API version (MAJOR.MINOR) reported in every event, so the Blueprint can check it before calling any action
+static constexpr const char *API_VERSION =
+    NSPANEL_EASY_STRINGIFY(NSPANEL_EASY_API_VERSION_MAJOR) "." NSPANEL_EASY_STRINGIFY(NSPANEL_EASY_API_VERSION_MINOR);
+#endif  // NSPANEL_EASY_API_VERSION_MAJOR && NSPANEL_EASY_API_VERSION_MINOR
+
 // Cached device name to avoid repeated lookups and string copies
 std::string cached_device_name;
 
@@ -27,6 +35,9 @@ void fire_ha_event(const std::string &type, std::map<std::string, std::string> d
   // Add device name and type to the event data
   data["device_name"] = cached_device_name;
   data["type"] = type;
+#if defined(NSPANEL_EASY_API_VERSION_MAJOR) && defined(NSPANEL_EASY_API_VERSION_MINOR)
+  data["api_version"] = API_VERSION;
+#endif  // NSPANEL_EASY_API_VERSION_MAJOR && NSPANEL_EASY_API_VERSION_MINOR
 
   // Log the event being fired
   ESP_LOGD(TAG_COMPONENT_BASE, "Firing HA event: %s", type.c_str());

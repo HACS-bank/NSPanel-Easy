@@ -16,6 +16,14 @@ substitutions:
   # Versioning workflow will replace this by the new version being generated
   min_blueprint_version: 2026.9.19
 
+  # API version (MAJOR.MINOR) provided by this firmware, reported to the Blueprint in every event
+  # MINOR: bump when an API action is added, as older Blueprints keep working
+  # MAJOR: bump (and reset MINOR to 0) when an API action is removed or its parameters change,
+  #        and also set min_blueprint_version to 'next', as older Blueprints can no longer call it
+  # The Blueprint declares the API version it uses in its 'api_version' variable
+  api_version_major: "1"
+  api_version_minor: "0"
+
   # Minimum required TFT version for compatibility
   # Must be manually updated with Nextion Editor
   min_tft_version: 21.6
@@ -35,6 +43,8 @@ esphome:
     version: '"${version}"'
   build_flags:
     - -D NSPANEL_EASY_VERSIONING
+    - -D NSPANEL_EASY_API_VERSION_MAJOR=${api_version_major}
+    - -D NSPANEL_EASY_API_VERSION_MINOR=${api_version_minor}
   min_version: ${min_esphome_compiler_version}
 
 script:
