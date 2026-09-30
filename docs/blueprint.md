@@ -225,10 +225,14 @@ Of course there is also the possibility to enter a label for each of the 4 pages
 
 ### Version check - Ignore older ESPHome firmware
 
-By default, the Blueprint stops when the panel's ESPHome firmware is older than the Blueprint,
+By default, the Blueprint stops when the panel's ESPHome firmware is older than the minimum version the Blueprint requires,
 because that firmware may not have registered all the API actions the Blueprint calls.
-Enable this to keep the Blueprint running while you update your firmware.
-Features added after your firmware version will not work until the update is completed,
+This minimum only changes when a release makes the Blueprint depend on a newer firmware,
+so updating the Blueprint does not always require updating the firmware.
+Keeping all components on the same version is still recommended.
+
+Enable this option to keep the Blueprint running while you update your firmware.
+Features that need a newer firmware will not work until the update is completed,
 and the version mismatch notification is still created.
 
 ### Custom actions for version mismatches (Optional)
@@ -237,11 +241,12 @@ For advanced users, the Blueprint can run your own actions when it detects a ver
 
 | Input | When it runs |
 | ----- | ------------ |
-| ESPHome firmware outdated | The firmware is older than the Blueprint. Runs when the automations are reloaded (e.g. after a Blueprint re-import) or Home Assistant starts. |
+| ESPHome firmware outdated | The firmware is older than the Blueprint requires. Runs when the automations are reloaded (e.g. after a Blueprint re-import) or Home Assistant starts. |
 | TFT file outdated | The TFT file is older than the firmware requires. Runs when the panel boots and reports its versions. |
 | Blueprint outdated | The firmware requires a newer Blueprint. Runs when the panel boots and reports its versions. |
 
-The Blueprint variables are available in your templates, including `blueprint_version`, `nspanel_name`, `nspanel_full_name` and `nspanel_deviceid`.
+The Blueprint variables are available in your templates,
+including `blueprint_version`, `min_esphome_version_string`, `nspanel_name`, `nspanel_full_name` and `nspanel_deviceid`.
 The description of each input in the Blueprint lists the variables relevant to it.
 
 These actions run inside the Blueprint, so an error stops the current run, and waits or delays hold it.

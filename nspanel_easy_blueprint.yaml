@@ -4598,16 +4598,18 @@ blueprint:
         esphome_version_check_bypass:
           name: Version check - Ignore older ESPHome firmware
           description: >-
-            By default the Blueprint stops when the panel's ESPHome firmware is older than the Blueprint,
-            because that firmware may not have registered all the API actions the Blueprint calls.
+            By default the Blueprint stops when the panel's ESPHome firmware is older than the minimum
+            version this Blueprint requires, because that firmware may not have registered all the API
+            actions the Blueprint calls. Newer releases that keep compatibility with your firmware do not
+            stop the Blueprint.
 
 
             Enable this to keep the Blueprint running anyway, so the panel stays usable while you update
             your firmware.
 
 
-            **Attention!** Features added after your firmware version will not work, and a sequence that
-            reaches one of them stops at that point. Everything the firmware does support keeps working.
+            **Attention!** Features that need a newer firmware will not work, and a sequence that reaches
+            one of them stops at that point. Everything the firmware does support keeps working.
 
 
             *The version mismatch notification is still created, so you do not forget to finish the update.*
@@ -4617,7 +4619,8 @@ blueprint:
         versioning_esphome_outdated_action:
           name: ESPHome firmware outdated - Custom action
           description: >-
-            Optional action(s) to run when the panel's ESPHome firmware is older than this Blueprint.
+            Optional action(s) to run when the panel's ESPHome firmware is older than the minimum version
+            this Blueprint requires.
 
 
             This runs only when the automations are reloaded (e.g. after re-importing the Blueprint) or when
@@ -4627,8 +4630,10 @@ blueprint:
 
             Variables available in your templates:
 
-            - `blueprint_version`: this Blueprint's version, which is also the version the firmware should be
-            updated to (the matching release tag is `v{{ blueprint_version }}`).
+            - `min_esphome_version_string`: the minimum firmware version this Blueprint requires.
+
+            - `blueprint_version`: this Blueprint's version, the recommended version to update the firmware
+            to (the matching release tag is `v{{ blueprint_version }}`).
 
             - `esphome_version_string`: the firmware version currently reported by the panel.
 
@@ -4977,6 +4982,12 @@ variables:
   # There's no need to change it here
   blueprint_version: 2026.9.21
 
+  # Minimum ESPHome firmware version required by this Blueprint (the Blueprint -> ESPHome contract).
+  # Set it to 'next' when a change makes the Blueprint depend on a newer firmware, e.g. a new API
+  # action or a new field in an existing one. The versioning workflow replaces 'next' by the version
+  # being released. Releases that keep the contract leave it unchanged, so older firmware keeps working.
+  min_esphome_version: next
+
   # Firmware version as reported by the ESPHome integration in the device registry.
   # Format: "<project_version> (ESPHome <compiler_version>)", e.g. "2026.8.5 (ESPHome 2026.6.0)".
   # The device registry is used instead of a sensor so the value stays readable
@@ -5004,20 +5015,32 @@ variables:
     }}
   blueprint_version_parts: >-
     {{ (blueprint_version | string).split('.') | map('int') | list }}
-  # ESPHome must be equal to or newer than the Blueprint. The documented update
-  # order is ESPHome -> TFT -> Blueprint, so a Blueprint ahead of the firmware
-  # means the user skipped a step and new API actions may not exist yet.
+  # Parsed into an integer tuple. The unresolved 'next' sentinel (development
+  # builds) and any unparseable value fall back to this Blueprint's own version,
+  # the strictest requirement.
+  min_esphome_version_parts: >-
+    {{
+      (min_esphome_version | string).split('.') | map('int') | list
+      if (min_esphome_version | string).split('.') | count == 3
+      and (min_esphome_version | string).split('.') | select('match', '^[0-9]+$') | list | count == 3
+      else blueprint_version_parts
+    }}
+  # Resolved minimum version, for notifications and custom actions.
+  min_esphome_version_string: "{{ min_esphome_version_parts | join('.') }}"
+  # ESPHome must be equal to or newer than min_esphome_version. The documented
+  # update order is ESPHome -> TFT -> Blueprint, so a Blueprint requiring a newer
+  # firmware means the user skipped a step and new API actions may not exist yet.
   # Fails closed: an unparseable version blocks all action calls.
   esphome_compatible: >-
     {{
       esphome_version_parts | count == 3
       and (
-        esphome_version_parts[0] > blueprint_version_parts[0]
-        or (esphome_version_parts[0] == blueprint_version_parts[0]
-            and esphome_version_parts[1] > blueprint_version_parts[1])
-        or (esphome_version_parts[0] == blueprint_version_parts[0]
-            and esphome_version_parts[1] == blueprint_version_parts[1]
-            and esphome_version_parts[2] >= blueprint_version_parts[2])
+        esphome_version_parts[0] > min_esphome_version_parts[0]
+        or (esphome_version_parts[0] == min_esphome_version_parts[0]
+            and esphome_version_parts[1] > min_esphome_version_parts[1])
+        or (esphome_version_parts[0] == min_esphome_version_parts[0]
+            and esphome_version_parts[1] == min_esphome_version_parts[1]
+            and esphome_version_parts[2] >= min_esphome_version_parts[2])
       )
     }}
   # User escape hatch for the version gate. When enabled, the Blueprint keeps
@@ -6957,6 +6980,8 @@ actions:
 
             - Blueprint version: {{ blueprint_version }}
 
+            - Required firmware version: {{ min_esphome_version_string }} or newer
+
             - Reported firmware version: {{ esphome_sw_version if esphome_sw_version | length > 0 else "Unknown" }}
 
             ---
@@ -6971,7 +6996,7 @@ actions:
             [report this issue](https://github.com/edwardtfn/NSPanel-Easy/issues/new/choose),
             including the reported firmware version shown above.
             {% else %}
-            Your NSPanel Easy ESPHome firmware is older than the Blueprint,
+            Your NSPanel Easy ESPHome firmware is older than the minimum version required by the Blueprint,
             {% if esphome_version_check_bypass %}
             and the version check has been bypassed, so features added after your firmware version
             will not work until you finish the update.
@@ -6983,7 +7008,9 @@ actions:
 
             - Current ESPHome version: {{ esphome_version_string }}
 
-            - Required version: {{ blueprint_version }} or newer
+            - Required version: {{ min_esphome_version_string }} or newer
+
+            - Recommended version: {{ blueprint_version }} (same as the Blueprint)
 
             ---
 
@@ -6991,7 +7018,8 @@ actions:
 
             Components must be updated in this order: **ESPHome**, then **TFT**, then **Blueprint**.
 
-            1. Update your ESPHome configuration to reference version {{ blueprint_version }} or newer.
+            1. Update your ESPHome configuration to reference version {{ blueprint_version }}
+            (or at least {{ min_esphome_version_string }}).
 
             2. Install the new firmware on your panel.
 
@@ -7011,7 +7039,7 @@ actions:
           - sequence: !input versioning_esphome_outdated_action
       - if: '{{ not esphome_version_check_bypass }}'
         then:
-          - stop: ESPHome firmware is older than the Blueprint
+          - stop: ESPHome firmware is older than the minimum version required by the Blueprint
 
   - alias: Global anchor repository
     if: '{{ false }}'  # It should never execute directly
