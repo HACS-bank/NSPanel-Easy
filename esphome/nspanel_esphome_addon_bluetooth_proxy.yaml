@@ -17,13 +17,13 @@ api:
       - esp32_ble_tracker.start_scan:
           continuous: true
     on_client_disconnected:
-    then:
-      - if:
-          condition:
-            not:
-              api.connected:
-          then:
-            - esp32_ble_tracker.stop_scan:
+      then:
+        - if:
+            condition:
+              not:
+                api.connected:
+            then:
+              - esp32_ble_tracker.stop_scan:
 
 esphome:
   build_flags:
