@@ -1,4 +1,4 @@
-# stabdalone Bluetooth Proxy and BLE tracker with smart scanning (only when HA is connected)
+# standalone Bluetooth Proxy and BLE tracker with smart scanning (only when HA is connected)
 
 ## not compaitble with ESPectre - use the espectre_with_bluetooth addon for that
 
