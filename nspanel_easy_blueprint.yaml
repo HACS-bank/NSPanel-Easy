@@ -7047,7 +7047,11 @@ actions:
             [report this issue](https://github.com/edwardtfn/NSPanel-Easy/issues/new/choose),
             including the reported firmware version shown above.
             {% else %}
+            {% if esphome_api_outdated %}
+            Your NSPanel Easy ESPHome firmware provides an older API version than the Blueprint requires,
+            {% else %}
             Your NSPanel Easy ESPHome firmware is older than the minimum version required by the Blueprint,
+            {% endif %}
             {% if esphome_version_check_bypass %}
             and the version check has been bypassed, so features added after your firmware version
             will not work until you finish the update.
@@ -7059,7 +7063,7 @@ actions:
 
             - Current ESPHome version: {{ esphome_version_string }}
 
-            - Required version: {{ min_esphome_version_string }} or newer
+            - Required version: {{ blueprint_version if esphome_api_outdated else min_esphome_version_string }} or newer
 
             - Recommended version: {{ blueprint_version }} (same as the Blueprint)
             {% if esphome_api_version | count == 2 %}
@@ -7073,8 +7077,8 @@ actions:
 
             Components must be updated in this order: **ESPHome**, then **TFT**, then **Blueprint**.
 
-            1. Update your ESPHome configuration to reference version {{ blueprint_version }}
-            (or at least {{ min_esphome_version_string }}).
+            1. Update your ESPHome configuration to reference version {{ blueprint_version
+            }}{{ '' if esphome_api_outdated else ' (or at least ' ~ min_esphome_version_string ~ ')' }}.
 
             2. Install the new firmware on your panel.
 
@@ -7094,7 +7098,7 @@ actions:
           - sequence: !input versioning_esphome_outdated_action
       - if: '{{ not esphome_version_check_bypass }}'
         then:
-          - stop: ESPHome firmware is older than the minimum version required by the Blueprint
+          - stop: ESPHome firmware is older than required by the Blueprint (version or API)
 
   - alias: API version gate - Blueprint outdated
     # The firmware removed or changed API actions this Blueprint calls. Calling them
