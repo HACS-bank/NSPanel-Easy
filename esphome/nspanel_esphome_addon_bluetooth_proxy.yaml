@@ -20,4 +20,4 @@ api:
 
 esphome:
   build_flags:
-    - -D NSPANEL_EASY_ADDON_BLUETOOTH
+    - -D NSPANEL_EASY_ADDON_BLUETOOTH_PROXY
