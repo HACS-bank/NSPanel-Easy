@@ -15,7 +15,7 @@ substitutions:
   ##############################
   backup_heater_relay: "0"      # Relay (1 or 2) driven by heat actions while HA is unavailable, or "0" to disable
   backup_cooler_relay: "0"      # Relay (1 or 2) driven by cool actions while HA is unavailable, or "0" to disable
-  climate_backup_delay: "300"   # Seconds without Home Assistant before the backup takes over, allows time for boot checks 
+  climate_backup_delay: "300"   # Seconds without Home Assistant before the backup takes over, allows time for boot checks
   TAG_ADDON_CLIMATE_BACKUP: nspanel.addon.climate.backup
 
 esphome:

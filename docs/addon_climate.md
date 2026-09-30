@@ -108,6 +108,8 @@ When Home Assistant is back, the backup relays are turned off and control return
 > The backup relays must be different from each other and from `heater_relay` / `cooler_relay`; this is checked at build time.
 > The embedded thermostat must be left in an active mode (e.g. preset `Home`), otherwise there is nothing to mirror during an outage.
 > The backup relay should be dedicated to this purpose. While the backup is active, any external change to it (e.g. from the hardware buttons) is reverted to match the embedded thermostat.
+> A reboot restarts the `climate_backup_delay` countdown. Without Home Assistant, the panel reboots after `api: reboot_timeout` (`60min` in this project),
+> and without Wi-Fi after `wifi: reboot_timeout` (`15min` by default in ESPHome). If longer outages are expected, consider increasing these (or setting them to `0s`) in your local yaml.
 
 <!-- markdownlint-disable MD013 -->
 | Key | Required | Supported values | Default | Description |
