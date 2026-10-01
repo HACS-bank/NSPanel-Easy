@@ -8,6 +8,12 @@
 ##### Include ESPectre CSI motion detection as a wake-up-the-screen add-on.                     #####
 #####################################################################################################
 ---
+substitutions:
+  ##############################
+  ## Change only in your      ##
+  ## local yaml substitutions ##
+  ##############################
+  espectre_ref: "3.0.0-rc3"  # ESPectre release tag this add-on was tested with (override at your own risk, e.g. main or develop)
 esphome:
   build_flags:
     - -D NSPANEL_EASY_ADDON_ESPECTRE
