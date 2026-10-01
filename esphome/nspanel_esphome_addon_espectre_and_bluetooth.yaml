@@ -22,9 +22,6 @@ esp32_ble_tracker:
   scan_parameters:
     interval: 100ms
     window: 5ms
-    duration: 5min
-    continuous: false
-    active: true
 
 espectre:
   segmentation_window_size_ms: 1000
@@ -32,5 +29,5 @@ espectre:
 
 packages:
   espectre_package: !include nspanel_esphome_addon_espectre.yaml
-  bluetooth_package: !include nspanel_esphome_addon_bluetooth.yaml
+  bluetooth_package: !include nspanel_esphome_addon_bluetooth_proxy.yaml
 ...
