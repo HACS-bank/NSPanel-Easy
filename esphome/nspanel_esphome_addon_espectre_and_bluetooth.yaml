@@ -8,9 +8,13 @@
 ##### ESPectre co-existence with Bluetooth.                                                     #####
 #####################################################################################################
 ---
+  ##############################
+  ## Change only in your      ##
+  ## local yaml substitutions ##
+  ##############################
 substitutions:
-# bluetooth_package has this as "true", revert to "false" for improved coexistance.  
-  bluetooth_proxy_active_scan: "false"  
+  bluetooth_proxy_active_scan: "false"
+  # by default the bluetooth_package has this as "true", revert to "false" for improved coexistance with ESPectre  
 
 esp32:
   framework:
