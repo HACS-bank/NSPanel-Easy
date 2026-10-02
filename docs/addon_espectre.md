@@ -69,7 +69,8 @@ In General Settings make sure that `relay 2` has a visible colour and icon - `cy
 
 ## ESPectre Manager app for Home Assistant
 
-Head over to [ESPectre.dev](https://espectre.dev) for details.  Getting the balance right between traffic modes may take a bit of work.
+Head over to [ESPectre.dev](https://espectre.dev) for details.
+Getting the balance right between traffic modes may take a bit of work.
 
 > [!NOTE]
 > If you have more than a few panels or other devices running ESPectre with default settings you will run the risk of bringing down your home wireless or even your whole home network.
