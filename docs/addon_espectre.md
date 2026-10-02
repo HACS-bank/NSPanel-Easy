@@ -11,9 +11,12 @@ For best results you will need to make adjustments in _Home Assistant > Settings
 
 ### Attention
 
-1. The NSPanel is only just capable of running this addon in addition to everything else it is doing. Be kind to it and keep an eye on the image size when building. If you have too many addons, you might need to choose.
-2. It is also asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace. The `addon_espectre_and_bluetooth` combination makes some necessary compromises and includes `addon_bluetooth_proxy`.
-3. The ESPectre addon makes use of the display item normally reserved for RELAY 2 and lights it up during motion detection. If _you are also using the second relay_, expect the unexpected 😃
+1. The NSPanel is only just capable of running this addon in addition to everything else it is doing.
+   Be kind to it and keep an eye on the image size when building. If you have too many addons, you might need to choose.
+2. It is also asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace.
+   The `addon_espectre_and_bluetooth` combination makes some necessary compromises and includes `addon_bluetooth_proxy`.
+3. The ESPectre addon makes use of the display item normally reserved for RELAY 2 and lights it up during motion detection.
+   If _you are also using the second relay_, expect the unexpected 😃
 
 ## Installation
 
