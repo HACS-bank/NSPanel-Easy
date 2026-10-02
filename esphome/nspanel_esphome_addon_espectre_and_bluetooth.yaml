@@ -8,13 +8,13 @@
 ##### ESPectre co-existence with Bluetooth.                                                     #####
 #####################################################################################################
 ---
+substitutions:
   ##############################
   ## Change only in your      ##
   ## local yaml substitutions ##
   ##############################
-substitutions:
   bluetooth_proxy_active_scan: "false"
-  # by default the bluetooth_package has this as "true", revert to "false" for improved coexistance with ESPectre  
+  # by default the bluetooth_package has this as "true", set to "false" here for improved coexistance with ESPectre
 
 esp32:
   framework:
@@ -26,8 +26,8 @@ esp32:
 
 bluetooth_proxy:
   active: false
-      # sets the initial value in Home Assistant, but can be over-ridden in Home Assistant and might have previously been
-      # set to true and that value remembered. Check the bluetooth settings for your panel, in Home Assistant, to be sure.
+  # sets the initial value in Home Assistant, but can be over-ridden in Home Assistant and might have previously been
+  # set to true and that value remembered. Check the bluetooth settings for your panel, in Home Assistant, to be sure.
 
 esp32_ble_tracker:
   software_coexistence: false
