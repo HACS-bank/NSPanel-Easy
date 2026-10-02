@@ -72,7 +72,9 @@ In General Settings make sure that `relay 2` has a visible colour and icon - `cy
 Head over to [ESPectre.dev](https://espectre.dev) for details.  Getting the balance right between traffic modes may take a bit of work.
 
 > [!NOTE]
-> If you have more than a few panels or other devices running ESPectre with default settings you will run the risk of bringing down your home wireless or even your whole home network. Install **ESPectre Manager app for Home Assistant** and use it to make necessary adjustments, setting traffic mode to External to use its multicast traffic generator for example.  Properly configured, there is no problem using a dozen or more panels in combination with **ESPectre Manager**.
+> If you have more than a few panels or other devices running ESPectre with default settings you will run the risk of bringing down your home wireless or even your whole home network.
+> Install **ESPectre Manager app for Home Assistant** and use it to make necessary adjustments, setting traffic mode to External to use its multicast traffic generator for example.
+> Properly configured, there is no problem using a dozen or more panels in combination with **ESPectre Manager**.
 
 
 
