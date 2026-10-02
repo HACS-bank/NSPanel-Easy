@@ -8,6 +8,10 @@
 ##### ESPectre co-existence with Bluetooth.                                                     #####
 #####################################################################################################
 ---
+substitutions:
+# bluetooth_package has this as "true", revert to "false" for improved coexistance.  
+  bluetooth_proxy_active_scan: "false"  
+
 esp32:
   framework:
     type: esp-idf
