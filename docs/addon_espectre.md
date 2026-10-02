@@ -61,7 +61,8 @@ The following keys are available to be used in your `substitutions`:
 <!-- markdownlint-disable MD013 MD033 -->
 | Key | Required | Supported values | Default | Description |
 | :- | :-: | :-: | :-: | :- |
-| cooler_relay | Mandatory for *cool* and *dual* | `1` or `2` | `0` (disabled) | Relay used to control the cooler. Use `1` for "Relay 1" or `2` for "Relay 2". |
+| espectre_ref | no | valid ESPectre release tag | "3.0.0-rc3"  | ESPectre version control |
+| bluetooth_proxy_active_scan | no | "false" or "true" | "false" | controls airtime share | 
 <!-- markdownlint-enable MD013 MD033 -->
 
 ## Blueprint settings
