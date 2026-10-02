@@ -7,7 +7,7 @@ ESPectre module - see (ESPectre.dev)[https://espectre.dev] for the details of ho
 
 If the display is blank, and motion is detected, the display wakes up.
 
-For best results 
+For best results you will need to make adjustments in _Home Assistant > Settings > Devices > ESPhome_
 
 ### Attention
 
