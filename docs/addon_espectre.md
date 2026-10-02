@@ -31,10 +31,6 @@ substitutions:
   wifi_password: !secret wifi_password
   language: en      # Language code - see docs/localization.md for all supported codes
 
-  # Add-on configuration (if needed)
-  ## force active scan at your own risk
-  upload_tft_automatically: true
-
 ##### My customization - Start #####
 ##### My customization - End #####
 
@@ -46,8 +42,7 @@ packages:
     refresh: 300s
     files:
       - nspanel_esphome.yaml # Basic package
-      # Optional advanced and add-on configurations
-      # pick no more than one of these
+      # Optional add-on configurations - uncomment no more than one of these
       - esphome/nspanel_esphome_addon_espectre_and_bluetooth.yaml  # both
       # - esphome/nspanel_esphome_addon_espectre.yaml  # just ESPectre
       # - esphome/nspanel_esphome_addon_bluetooth_proxy.yaml  # just Bluetooth
