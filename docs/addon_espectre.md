@@ -1,4 +1,4 @@
-# Add-on: ESPectre
+# Add-on: ESPectre motion detection
 
 ## Description
 
