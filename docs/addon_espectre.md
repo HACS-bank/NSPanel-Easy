@@ -12,12 +12,12 @@ For best results
 ### Attention
 
 1. The NSPanel is only just capable of running this addon in addition to everything else it is doing. Be kind to it and keep an eye on the image size when building. If you have too many addons, you might need to choose.
-2. It is also asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace. The `addon_espectre_and_bluetooth` combination makes some necessary compromises.
-3. The addon makes use of the display item normally reserved for RELAY 2. If _you are also using the second relay_, expect the unexpected 😃
+2. It is also asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace. The `addon_espectre_and_bluetooth` combination makes some necessary compromises and includes `addon_bluetooth_proxy`.
+3. The ESPectre addon makes use of the display item normally reserved for RELAY 2 and lights it up during motion detection. If _you are also using the second relay_, expect the unexpected 😃
 
 ## Installation
 
-You will need to add the reference to `addon_espectre`, or `addon_espectre_and_bluetooth` files on your ESPHome settings in the `package` section after the `remote_package` (base code), as shown below (for `espectre` in this example):
+You will need to add the reference to `addon_espectre` or `addon_espectre_and_bluetooth` files on your ESPHome settings in the `package` section after the `remote_package` (base code), as shown below:
 
 > [!NOTE]
 > `addon_espectre_and_bluetooth` includes `addon_espectre` and `addon_bluetooth_proxy`, so don't try to add them as well yourself.
@@ -62,8 +62,19 @@ The following keys are available to be used in your `substitutions`:
 | Key | Required | Supported values | Default | Description |
 | :- | :-: | :-: | :-: | :- |
 | cooler_relay | Mandatory for *cool* and *dual* | `1` or `2` | `0` (disabled) | Relay used to control the cooler. Use `1` for "Relay 1" or `2` for "Relay 2". |
-
 <!-- markdownlint-enable MD013 MD033 -->
+
+## Blueprint settings
+
+In General Settings make sure that `relay 2` has a visible colour and icon - `cyan` and `mdi:motion-sensor` for example 
+
+## ESPectre Manager app for Home Assistant
+
+Head over to (ESpectre.dev)[https://espectre.dev] for details.  Getting the balance right between traffic modes may take a bit of work.
+
+> [!NOTE]
+> If you have more than a few panels or other devices running ESPectre with default settings you will run the risk of bringing down your home wireless or even your whole home network. Install **ESPectre Manager app for Home Assistant** and use it to make necessary adjustments, setting traffic mode to External to use its multicast traffic generator for example.  Properly configured, there is no problem using a dozen or more panels in combination with **ESPectre Manager**.
+
 
 - All values must be delimited with `""`
 
