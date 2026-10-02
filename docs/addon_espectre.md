@@ -56,7 +56,7 @@ packages:
 
 ## Configuration
 
-The following keys are available to be used in your `substitutions`:
+The following keys are available to be used in your `substitutions`. All values must be delimited with `""`:
 
 <!-- markdownlint-disable MD013 MD033 -->
 | Key | Required | Supported values | Default | Description |
@@ -77,5 +77,4 @@ Head over to (ESpectre.dev)[https://espectre.dev] for details.  Getting the bala
 > If you have more than a few panels or other devices running ESPectre with default settings you will run the risk of bringing down your home wireless or even your whole home network. Install **ESPectre Manager app for Home Assistant** and use it to make necessary adjustments, setting traffic mode to External to use its multicast traffic generator for example.  Properly configured, there is no problem using a dozen or more panels in combination with **ESPectre Manager**.
 
 
-- All values must be delimited with `""`
 
