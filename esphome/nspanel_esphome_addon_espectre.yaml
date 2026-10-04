@@ -30,7 +30,6 @@ espectre:
   id: espectre_csi
   detection_algorithm: high_accuracy  # lightweight
   traffic_generator_mode: wifi_raw
-  traffic_generator_target_ip: 192.168.1.2  # not the router, in case "internal" is selected - the default can overwhelm the router and kill the network
   threshold_number:
     name: "Motion Threshold"
   motion_sensor:
