@@ -13,7 +13,7 @@ substitutions:
   ## Change only in your      ##
   ## local yaml substitutions ##
   ##############################
-  bluetooth_proxy_active_scan: "false"
+  bluetooth_proxy_active_scan: "true" # "false"
   # by default the bluetooth_package has this as "true", set to "false" here for improved coexistance with ESPectre
 
 esp32:
