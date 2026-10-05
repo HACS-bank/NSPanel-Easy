@@ -13,8 +13,6 @@ substitutions:
   ## Change only in your      ##
   ## local yaml substitutions ##
   ##############################
-  bluetooth_proxy_active_scan: "true" # "false"
-  # by default the bluetooth_package has this as "true", set to "false" here for improved coexistance with ESPectre
 
 esp32:
   framework:
@@ -23,11 +21,6 @@ esp32:
       CONFIG_ESP_COEX_SW_COEXIST_ENABLE: n
       # With Wi-Fi enabled, software_coexistence: false only stops ESPHome from requesting software coexistence, and
       # ESP-IDF still enables it by default when Wi-Fi and Bluetooth are both in use, so this sdkconfig option is needed.
-
-bluetooth_proxy:
-  active: false
-  # sets the initial value in Home Assistant, but can be over-ridden in Home Assistant and might have previously been
-  # set to true and that value remembered. Check the bluetooth settings for your panel, in Home Assistant, to be sure.
 
 esp32_ble_tracker:
   software_coexistence: false
