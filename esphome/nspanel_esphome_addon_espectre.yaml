@@ -64,9 +64,9 @@ script:
     then:
       - lambda: if (system_flags.tft_upload_active|system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
 
-  - id: !extend ota
-    then:
-      - lambda: if (system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
+#  - id: !extend ota    << not called OTA, away to find the right name
+#    then:
+#      - lambda: if (system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
 
   - id: !extend refresh_relays
     then:
