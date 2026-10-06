@@ -13,7 +13,11 @@ substitutions:
   ## Change only in your      ##
   ## local yaml substitutions ##
   ##############################
-  espectre_ref: "3.0.0-rc3"  # ESPectre release tag this add-on was tested with (override at your own risk, e.g. main or develop)
+  espectre_ref: "3.0.0-rc3"
+  # ESPectre release tag this add-on was tested with (override at your own risk)
+  espectre_traffic_generator_mode: wifi_raw 
+  espectre_detection_algorithm: high_accuracy
+
 esphome:
   build_flags:
     - -D NSPANEL_EASY_ADDON_ESPECTRE
@@ -28,8 +32,10 @@ external_components:
 
 espectre:
   id: espectre_csi
-  detection_algorithm: high_accuracy  # lightweight
-  traffic_generator_mode: wifi_raw
+  detection_algorithm: ${espectre_detection_algorithm}
+  # high_accuracy, lightweight
+  traffic_generator_mode: ${espectre_traffic_generator_mode}
+  # wifi_raw, internal, external
   threshold_number:
     name: "Motion Threshold"
   motion_sensor:
