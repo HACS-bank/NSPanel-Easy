@@ -56,7 +56,9 @@ packages:
 
 Testing with `ESPhome 2026.9.1`, `ESPectre 3.0.0` and `NSPanel-Easy 2026.10.0`
 
-```
+### ESPectre and climate_backup
+
+```yaml
 substitutions:
   device_name: "hall-nspanel"
   friendly_name: NSpanel Middle Hall
@@ -97,7 +99,9 @@ RAM:   [====      ]  40.5% (used 73280 bytes from 180736 bytes)
 
 Flash: [========  ]  77.0% (used 1413351 bytes from 1835008 bytes)
 
-```
+### ESPectre
+
+```yaml
 substitutions:
   device_name: "bedroom-east"
   friendly_name: "NSpanel Bedroom East"
@@ -134,7 +138,9 @@ RAM:   [====      ]  39.9% (used 72096 bytes from 180736 bytes)
 
 Flash: [========  ]  75.8% (used 1391455 bytes from 1835008 bytes)
 
-```
+### ESPectre with Bluetooth Proxy
+
+```yaml
 substitutions:
   device_name: "bedroom-back"
   friendly_name: "NSpanel Back Bedroom"
