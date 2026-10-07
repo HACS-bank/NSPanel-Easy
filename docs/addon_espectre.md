@@ -59,8 +59,11 @@ The following keys are available to be used in your `substitutions`. All values 
 <!-- markdownlint-disable MD013 MD033 -->
 | Key | Required | Supported values | Default | Description |
 | :- | :-: | :-: | :-: | :- |
-| espectre_ref | no | valid ESPectre release tag | "3.0.0-rc3"  | ESPectre version control |
-| bluetooth_proxy_active_scan | no | "false" or "true" | "false" | controls airtime share | 
+| espectre_ref | no | valid ESPectre release tag | "3.0.0"  | ESPectre version control |
+| bluetooth_proxy_active_scan | no | "false" or "true" | "false" | controls airtime share |
+| espectre_direct_api | no | "false" or "true" | "true" | the direct API is used by the ESPectre App |
+| espectre_detection_algorithm | no | "high_accuracy" or "lightweight" | "high_accuracy" | see ESPectre docs |
+| espectre_traffic_generator_mode | no | "wifi_raw", "internal", "external" | "wifi_raw" | "external" if using ESPectre App as traffic generator |
 <!-- markdownlint-enable MD013 MD033 -->
 
 ## Blueprint settings
