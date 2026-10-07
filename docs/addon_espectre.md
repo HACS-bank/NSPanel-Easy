@@ -52,6 +52,50 @@ packages:
 
 ```
 
+## Image size
+
+Testing with `ESPhome 2026.9.1`, `ESPectre 3.0.0` and `NSPanel-Easy 2026.10.0`
+
+```
+substitutions:
+  device_name: "hall-nspanel"
+  friendly_name: NSpanel Middle Hall
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  wakeup_with_button_press: true
+  backup_heater_relay: "1"
+  backup_cooler_relay: "2"
+  climate_backup_delay: "3"
+esp32:
+  framework:
+    advanced: 
+      sram1_as_iram: true
+captive_portal: !remove
+web_server: !remove
+api:
+  encryption:
+    key: !secret api_encryption
+ota:
+  platform: esphome
+  encryption:
+  allow_partition_access: true
+packages:
+  remote_package:
+    url: https://github.com/edwardtfn/NSPanel-Easy
+    ref: main
+    refresh: 300s
+    files:
+      - nspanel_esphome.yaml # Base package
+      - esphome/nspanel_esphome_addon_display_light.yaml
+      - esphome/nspanel_esphome_addon_climate_backup.yaml
+      - esphome/nspanel_esphome_addon_climate_dual.yaml
+      - esphome/nspanel_esphome_addon_espectre.yaml
+```
+Total image size: 1413351 bytes (.bin may be padded larger)
+RAM:   [====      ]  40.5% (used 73280 bytes from 180736 bytes)
+Flash: [========  ]  77.0% (used 1413351 bytes from 1835008 bytes)
+
+
 ## Configuration
 
 The following keys are available to be used in your `substitutions`. All values must be delimited with `""`:
