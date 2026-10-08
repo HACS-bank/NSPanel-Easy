@@ -9,6 +9,7 @@
 #####################################################################################################
 ---
 substitutions:
+  TAG_ADDON_ESPECTRE: nspanel.addon.espectre
   ##############################
   ## Change only in your      ##
   ## local yaml substitutions ##
