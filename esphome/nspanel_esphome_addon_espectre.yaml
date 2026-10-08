@@ -65,7 +65,8 @@ script:
     then:
       - lambda: |-
           ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "Add-on 'ESPectre motion detection'");
-
+          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Traffic generator: %s", ${espectre_traffic_generator_mode});
+          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Dectection algorithm: %s", ${espectre_detection_algorithm});
   # wait until the platform is ready before starting - pause sensing in early boot
   - id: !extend boot_early_routines
     then:
