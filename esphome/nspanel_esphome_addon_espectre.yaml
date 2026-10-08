@@ -15,9 +15,9 @@ substitutions:
   ## local yaml substitutions ##
   ##############################
   espectre_ref: "3.0.0"  # ESPectre release this add-on was tested with (override at your own risk)
-  espectre_traffic_generator_mode: wifi_raw   # wifi_raw, external, etc.
-  espectre_detection_algorithm: high_accuracy   # high_accuracy, lightweight
-  espectre_direct_api: true  # see ESPectre documentation
+  espectre_traffic_generator_mode: "wifi_raw"   # wifi_raw, external, etc.
+  espectre_detection_algorithm: "high_accuracy"   # high_accuracy, lightweight
+  espectre_direct_api: "true"  # see ESPectre documentation
 
 esphome:
   build_flags:
@@ -64,10 +64,10 @@ script:
   - id: !extend dump_config
     then:
       - lambda: |-
-          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "Add-on 'ESPectre motion detection' release %s", ${espectre_ref});
-          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Traffic generator: %s", ${espectre_traffic_generator_mode});
-          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Dectection algorithm: %s", ${espectre_detection_algorithm});
-          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Direct API: %s", YESNO(${espectre_direct_api}));
+          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "Add-on 'ESPectre motion detection' release %s", "${espectre_ref}");
+          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Traffic generator: %s", "${espectre_traffic_generator_mode}");
+          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Dectection algorithm: %s", "${espectre_detection_algorithm}");
+          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Direct API: %s", YESNO("${espectre_direct_api}"));
 
   # wait until the platform is ready before starting - pause sensing in early boot
   - id: !extend boot_early_routines
