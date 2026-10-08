@@ -60,6 +60,11 @@ espectre:
             relay_mask: 2
 
 script:
+  - id: !extend dump_config
+    then:
+      - lambda: |-
+          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "Add-on 'ESPectre motion detection'");
+
   # wait until the platform is ready before starting - pause sensing in early boot
   - id: !extend boot_early_routines
     then:
