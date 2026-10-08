@@ -35,44 +35,48 @@ espectre:
   detection_algorithm: ${espectre_detection_algorithm}
   traffic_generator_mode: ${espectre_traffic_generator_mode}
   direct_api: ${espectre_direct_api}
+
   threshold_number:
     name: "Motion Threshold"
+
   motion_sensor:
     id: espectre_motion
     name: "ESPectre Motion"
     on_press:
       then:
+        # wake the screen
         - script.execute:
             id: wakeup
             reset_timer: true
+        # display the motion sensor icon
         - script.execute:
             id: refresh_relays
             relay_mask: 2
     on_release:
       then:
+        # hide the motion sensor icon
         - script.execute:
             id: refresh_relays
             relay_mask: 2
 
-# wait until the platform is ready before starting
 script:
+  # wait until the platform is ready before starting - pause sensing in early boot
   - id: !extend boot_early_routines
     then:
       - lambda: id(espectre_csi).set_sensing_runtime(false);
 
+  # wait until the platform is ready before starting - enable sensing in late boot
   - id: !extend boot
     then:
       - lambda: |-
           id(espectre_csi).set_sensing_runtime(true);
 
+  # reduce pressure on system during OTA and TFT uploads
   - id: !extend stop_all
     then:
       - lambda: if (system_flags.tft_upload_active|system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
 
-#  - id: !extend ota    << not called OTA, away to find the right name
-#    then:
-#      - lambda: if (system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
-
+  # display/hide the motion sensor icon in chip relay_2
   - id: !extend refresh_relays
     then:
       - lambda: |-
