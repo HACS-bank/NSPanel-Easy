@@ -58,10 +58,6 @@ substitutions:
   backup_heater_relay: "1"
   backup_cooler_relay: "2"
   climate_backup_delay: "3"
-esp32:
-  framework:
-    advanced: 
-      sram1_as_iram: true
 captive_portal: !remove
 web_server: !remove
 api:
@@ -90,10 +86,6 @@ Flash: 77.0%
 ```yaml
 substitutions:
   wakeup_with_button_press: true
-esp32:
-  framework:
-    advanced: 
-      sram1_as_iram: true
 captive_portal: !remove
 web_server: !remove
 api:
@@ -123,10 +115,6 @@ substitutions:
   backup_heater_relay: "1"
   backup_cooler_relay: "2"
   climate_backup_delay: "3"
-esp32:
-  framework:
-    advanced: 
-      sram1_as_iram: true
 captive_portal: !remove
 web_server: !remove
 api:
@@ -143,13 +131,11 @@ esp32:
       CONFIG_ESP_COEX_SW_COEXIST_ENABLE: n
       # With Wi-Fi enabled, software_coexistence: false only stops ESPHome from requesting software coexistence, and
       # ESP-IDF still enables it by default when Wi-Fi and Bluetooth are both in use, so this sdkconfig option is needed.
-
 esp32_ble_tracker:
   software_coexistence: false
   scan_parameters:
     interval: 100ms
     window: 5ms
-
 espectre:
   segmentation_window_size_ms: 1000
   evaluation_interval_ms: 250
@@ -164,12 +150,12 @@ packages:
       - esphome/nspanel_esphome_addon_espectre
       - esphome/nspanel_addon_bluetooth_proxy.yaml
 ```
-Image size: 1813615 bytes
-
-RAM: 77.2%
-
+Image size: 1813615 bytes,
+RAM: 77.2%,
 Flash: 98.8%
 
+> [!NOTE]
+> As both the ESPectre code and the base package gain new features over time, Image size is likely to grow and eventually make ESPectre/Bluetooth Proxy co-existance impossible. 
 
 ## Configuration
 
