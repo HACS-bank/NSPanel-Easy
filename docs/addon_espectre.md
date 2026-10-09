@@ -60,10 +60,6 @@ Testing with `ESPhome 2026.9.1`, `ESPectre 3.0.0` and `NSPanel-Easy 2026.10.0`
 
 ```yaml
 substitutions:
-  device_name: "hall-nspanel"
-  friendly_name: NSpanel Middle Hall
-  wifi_ssid: !secret wifi_ssid
-  wifi_password: !secret wifi_password
   wakeup_with_button_press: true
   backup_heater_relay: "1"
   backup_cooler_relay: "2"
@@ -84,8 +80,6 @@ ota:
 packages:
   remote_package:
     url: https://github.com/edwardtfn/NSPanel-Easy
-    ref: main
-    refresh: 300s
     files:
       - nspanel_esphome.yaml # Base package
       - esphome/nspanel_esphome_addon_display_light.yaml
@@ -93,21 +87,16 @@ packages:
       - esphome/nspanel_esphome_addon_climate_dual.yaml
       - esphome/nspanel_esphome_addon_espectre.yaml
 ```
-Total image size: 1413351 bytes (.bin may be padded larger)
+Image size: 1413351 bytes
 
-RAM:   [====      ]  40.5% (used 73280 bytes from 180736 bytes)
+RAM: 40.5%
 
-Flash: [========  ]  77.0% (used 1413351 bytes from 1835008 bytes)
+Flash: 77.0%
 
 ### ESPectre
 
 ```yaml
 substitutions:
-  device_name: "bedroom-east"
-  friendly_name: "NSpanel Bedroom East"
-  wifi_ssid: !secret wifi_ssid
-  wifi_password: !secret wifi_password
-  boot_sound: false
   wakeup_with_button_press: true
 esp32:
   framework:
@@ -125,28 +114,21 @@ ota:
 packages:
   remote_package:
     url: https://github.com/edwardtfn/NSPanel-Easy
-    ref: main
-    refresh: 300s
     files:
       - nspanel_esphome.yaml # Base package
       - esphome/nspanel_esphome_addon_display_light.yaml
       - esphome/nspanel_esphome_addon_espectre.yaml
 ```
-Total image size: 1391455 bytes (.bin may be padded larger)
+Image size: 1391455 bytes
 
-RAM:   [====      ]  39.9% (used 72096 bytes from 180736 bytes)
+RAM: 39.9%
 
-Flash: [========  ]  75.8% (used 1391455 bytes from 1835008 bytes)
+Flash: 75.8%
 
-### ESPectre with Bluetooth Proxy
+### ESPectre with Bluetooth Proxy and Climate Backup
 
 ```yaml
 substitutions:
-  device_name: "bedroom-back"
-  friendly_name: "NSpanel Back Bedroom"
-  wifi_ssid: !secret wifi_ssid
-  wifi_password: !secret wifi_password
-  boot_sound: false
   wakeup_with_button_press: true
   backup_heater_relay: "1"
   backup_cooler_relay: "2"
@@ -167,8 +149,6 @@ ota:
 packages:
   remote_package:
     url: https://github.com/edwardtfn/NSPanel-Easy
-    ref: main
-    refresh: 300s
     files:
       - nspanel_esphome.yaml # Base package
       - esphome/nspanel_esphome_addon_display_light.yaml
@@ -176,11 +156,11 @@ packages:
       - esphome/nspanel_esphome_addon_climate_heat.yaml
       - esphome/nspanel_esphome_addon_espectre_and_bluetooth.yaml
 ```
-Total image size: 1813615 bytes (.bin may be padded larger)
+Image size: 1813615 bytes
 
-RAM:   [========  ]  77.2% (used 96164 bytes from 124580 bytes)
+RAM: 77.2%
 
-Flash: [==========]  98.8% (used 1813615 bytes from 1835008 bytes)
+Flash: 98.8%
 
 
 ## Configuration
@@ -211,5 +191,25 @@ Getting the balance right between traffic modes may take a bit of work.
 > Install **ESPectre Manager app for Home Assistant** and use it to make necessary adjustments, setting traffic mode to External to use its multicast traffic generator for example.
 > Properly configured, there is no problem using a dozen or more panels in combination with **ESPectre Manager**.
 
+## Bluetooth co-existance 
 
+```yaml 
+esp32:
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESP_COEX_SW_COEXIST_ENABLE: n
+      # With Wi-Fi enabled, software_coexistence: false only stops ESPHome from requesting software coexistence, and
+      # ESP-IDF still enables it by default when Wi-Fi and Bluetooth are both in use, so this sdkconfig option is needed.
+
+esp32_ble_tracker:
+  software_coexistence: false
+  scan_parameters:
+    interval: 100ms
+    window: 5ms
+
+espectre:
+  segmentation_window_size_ms: 1000
+  evaluation_interval_ms: 250
+```
 
