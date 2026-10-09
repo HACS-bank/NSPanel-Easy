@@ -13,17 +13,14 @@ For best results you will need to make adjustments in _Home Assistant > Settings
 
 1. The NSPanel is only just capable of running this addon in addition to everything else it is doing.
    Be kind to it and keep an eye on the image size when building. If you have too many addons, you might need to choose.
-2. It is also asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace.
-   The `addon_espectre_and_bluetooth` combination makes some necessary compromises and includes `addon_bluetooth_proxy`.
+2. It is asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace as well as the same NSPanel.
+   The tweaks documented below make some necessary compromises to allow both to work.
 3. The ESPectre addon makes use of the display item normally reserved for RELAY 2 and lights it up during motion detection.
    If _you are also using the second relay_, expect the unexpected 😃
 
 ## Installation
 
-You will need to add the reference to `addon_espectre` or `addon_espectre_and_bluetooth` files on your ESPHome settings in the `package` section after the `remote_package` (base code), as shown below:
-
-> [!NOTE]
-> `addon_espectre_and_bluetooth` includes `addon_espectre` and `addon_bluetooth_proxy`, so don't try to add them as well yourself.
+Add the reference to `addon_espectre` in your ESPHome settings in the `package` section after the `remote_package` (base code), as shown below:
 
 ```yaml
 substitutions:
@@ -45,11 +42,8 @@ packages:
     refresh: 300s
     files:
       - nspanel_esphome.yaml # Basic package
-      # Optional add-on configurations - uncomment no more than one of these
-      - esphome/nspanel_esphome_addon_espectre_and_bluetooth.yaml  # both
-      # - esphome/nspanel_esphome_addon_espectre.yaml  # just ESPectre
-      # - esphome/nspanel_esphome_addon_bluetooth_proxy.yaml  # just Bluetooth
-
+      # Optional add-on configurations
+      - esphome/nspanel_esphome_addon_espectre.yaml
 ```
 
 ## Image size
@@ -87,10 +81,8 @@ packages:
       - esphome/nspanel_esphome_addon_climate_dual.yaml
       - esphome/nspanel_esphome_addon_espectre.yaml
 ```
-Image size: 1413351 bytes
-
-RAM: 40.5%
-
+Image size: 1413351 bytes,
+RAM: 40.5%,
 Flash: 77.0%
 
 ### ESPectre
@@ -119,10 +111,8 @@ packages:
       - esphome/nspanel_esphome_addon_display_light.yaml
       - esphome/nspanel_esphome_addon_espectre.yaml
 ```
-Image size: 1391455 bytes
-
-RAM: 39.9%
-
+Image size: 1391455 bytes,
+RAM: 39.9%,
 Flash: 75.8%
 
 ### ESPectre with Bluetooth Proxy and Climate Backup
@@ -146,6 +136,23 @@ ota:
   platform: esphome
   encryption:
   allow_partition_access: true
+esp32:
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESP_COEX_SW_COEXIST_ENABLE: n
+      # With Wi-Fi enabled, software_coexistence: false only stops ESPHome from requesting software coexistence, and
+      # ESP-IDF still enables it by default when Wi-Fi and Bluetooth are both in use, so this sdkconfig option is needed.
+
+esp32_ble_tracker:
+  software_coexistence: false
+  scan_parameters:
+    interval: 100ms
+    window: 5ms
+
+espectre:
+  segmentation_window_size_ms: 1000
+  evaluation_interval_ms: 250
 packages:
   remote_package:
     url: https://github.com/edwardtfn/NSPanel-Easy
@@ -154,7 +161,8 @@ packages:
       - esphome/nspanel_esphome_addon_display_light.yaml
       - esphome/nspanel_esphome_addon_climate_backup.yaml
       - esphome/nspanel_esphome_addon_climate_heat.yaml
-      - esphome/nspanel_esphome_addon_espectre_and_bluetooth.yaml
+      - esphome/nspanel_esphome_addon_espectre
+      - esphome/nspanel_addon_bluetooth_proxy.yaml
 ```
 Image size: 1813615 bytes
 
