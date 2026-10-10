@@ -3,19 +3,19 @@
 ## Description
 
 This add-on enables the use of your panel's Wi-Fi traffic to act as a motion sensor using the
-ESPectre module - see [ESPectre.dev](https://espectre.dev) for the details of how the module works.
+ESPectre module - see [ESPectre.dev](https://espectre.dev) for the details of how the module works and for license conditions.
 
 If the display is blank, and motion is detected, the display wakes up.
 
-For best results you will need to make adjustments in _Home Assistant > Settings > Devices > ESPhome_
+For best results you will need to make adjustments in _Home Assistant > Settings > Devices > ESPhome_ for each panel and calibrate with no-one in the room.
 
 ### Attention
 
-1. The NSPanel is only just capable of running this addon in addition to everything else it is doing.
+1. The NSPanel is capable of running this addon in addition to everything else it is doing.
    Be kind to it and keep an eye on the image size when building. If you have too many addons, you might need to choose.
-2. It is asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace as well as the same NSPanel.
-   The tweaks documented below make some necessary compromises to allow both to work.
-3. The ESPectre addon makes use of the display item normally reserved for RELAY 2 and lights it up during motion detection.
+   It is particularly asking a lot to use Bluetooth at the same time as WiFi motion detection as they use the same airspace as well as the same NSPanel.
+   The tweaks documented below make some necessary compromises to allow both to work together, but the combination is not recommended. 
+2. The ESPectre addon makes use of the display item normally reserved for RELAY 2 and lights it up during motion detection.
    If _you are also using the second relay_, expect the unexpected 😃
 
 ## Installation
@@ -147,15 +147,15 @@ packages:
       - esphome/nspanel_esphome_addon_display_light.yaml
       - esphome/nspanel_esphome_addon_climate_backup.yaml
       - esphome/nspanel_esphome_addon_climate_heat.yaml
-      - esphome/nspanel_esphome_addon_espectre
-      - esphome/nspanel_addon_bluetooth_proxy.yaml
+      - esphome/nspanel_esphome_addon_espectre.yaml
+      - esphome/nspanel_esphome_addon_bluetooth_proxy.yaml
 ```
 Image size: 1813615 bytes,
 RAM: 77.2%,
 Flash: 98.8%
 
 > [!NOTE]
-> As both the ESPectre code and the base package gain new features over time, Image size is likely to grow and eventually make ESPectre/Bluetooth Proxy co-existance impossible. 
+> As both the ESPectre code and the base package gain new features over time, Image size is likely to grow and eventually make ESPectre/Bluetooth Proxy coexistence impossible. 
 
 ## Configuration
 
@@ -165,7 +165,6 @@ The following keys are available to be used in your `substitutions`. All values 
 | Key | Required | Supported values | Default | Description |
 | :- | :-: | :-: | :-: | :- |
 | espectre_ref | no | valid ESPectre release tag | "3.0.0"  | ESPectre version control |
-| bluetooth_proxy_active_scan | no | "false" or "true" | "false" | controls airtime share |
 | espectre_direct_api | no | "false" or "true" | "true" | the direct API is used by the ESPectre App |
 | espectre_detection_algorithm | no | "high_accuracy" or "lightweight" | "high_accuracy" | see ESPectre docs |
 | espectre_traffic_generator_mode | no | "wifi_raw", "internal", "external" | "wifi_raw" | "external" if using ESPectre App as traffic generator |
@@ -185,7 +184,9 @@ Getting the balance right between traffic modes may take a bit of work.
 > Install **ESPectre Manager app for Home Assistant** and use it to make necessary adjustments, setting traffic mode to External to use its multicast traffic generator for example.
 > Properly configured, there is no problem using a dozen or more panels in combination with **ESPectre Manager**.
 
-## Bluetooth co-existance 
+## Bluetooth coexistence 
+
+This combination has been tested successfully, but in the end it was worth adding a dedicated Bluetooth device nearer the washing machine 
 
 ```yaml 
 esp32:
