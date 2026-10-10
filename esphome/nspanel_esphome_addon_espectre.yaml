@@ -69,12 +69,12 @@ script:
           ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Dectection algorithm: %s", "${espectre_detection_algorithm}");
           ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Direct API: %s", YESNO("${espectre_direct_api}"));
 
-  # wait until the platform is ready before starting - pause sensing in early boot
+  # wait until platform ready - pause sensing in early boot
   - id: !extend boot_early_routines
     then:
       - lambda: id(espectre_csi).set_sensing_runtime(false);
 
-  # wait until the platform is ready before starting - enable sensing in late boot
+  # wait until platform ready - enable sensing in late boot
   - id: !extend boot
     then:
       - lambda: |-
@@ -83,7 +83,7 @@ script:
   # reduce pressure on system during OTA and TFT uploads
   - id: !extend ota_std
     then:
-      - lambda: if (system_flags.tft_upload_active|system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
+      - lambda: if (system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
   - id: !extend stop_all
     then:
       - lambda: if (system_flags.tft_upload_active|system_flags.ota_in_progress) { id(espectre_csi).set_sensing_runtime(false); }
