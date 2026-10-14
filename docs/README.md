@@ -50,6 +50,8 @@ Optional packages that extend the base firmware:
   relays.
 - [Add-on: Display Light](addon_display_light.md) — expose the display
   brightness as a Home Assistant light entity.
+- [Add-on: ESPectre](addon_espectre.md) — use the panel's Wi-Fi signal as a
+  motion sensor that wakes the display.
 
 ## Reference
 

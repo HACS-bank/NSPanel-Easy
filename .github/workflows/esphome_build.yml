@@ -108,6 +108,8 @@ jobs:
             yaml-file: .test/esphome_idf_climate_cool_bluetooth_proxy.yaml
           - name: Bluetooth Proxy
             yaml-file: .test/esphome_idf_bluetooth_proxy.yaml
+          - name: ESPectre
+            yaml-file: .test/esphome_idf_espectre.yaml
           - name: BLE Tracker
             yaml-file: .test/esphome_idf_ble_tracker.yaml
           - name: Basic (Arduino)
@@ -158,6 +160,8 @@ jobs:
             yaml-file: .test/esphome_idf_climate_cool_bluetooth_proxy.yaml
           - name: Bluetooth Proxy
             yaml-file: .test/esphome_idf_bluetooth_proxy.yaml
+          - name: ESPectre
+            yaml-file: .test/esphome_idf_espectre.yaml
           - name: BLE Tracker
             yaml-file: .test/esphome_idf_ble_tracker.yaml
           - name: Basic (Arduino)

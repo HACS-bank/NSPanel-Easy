@@ -148,6 +148,7 @@ script:
               chip_render(CHIP_IDX_RELAY1);
             }
           }
+          #ifndef NSPANEL_EASY_ADDON_ESPECTRE  // The ESPectre add-on repurposes the relay 2 chip
           if (relay_mask & 2) {  // Chip - Relay 2
             ESP_LOGV("${TAG_HW_RELAYS}", "  relay2_local:    %s", YESNO(id(hardware_settings).relay2_local));
             ESP_LOGV("${TAG_HW_RELAYS}", "  relay2_fallback: %s", YESNO(id(hardware_settings).relay2_fallback));
@@ -156,6 +157,7 @@ script:
               chip_render(CHIP_IDX_RELAY2);
             }
           }
+          #endif  // NSPANEL_EASY_ADDON_ESPECTRE
 
   - id: !extend stop_all
     then:
