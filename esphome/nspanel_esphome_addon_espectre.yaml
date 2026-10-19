@@ -27,31 +27,62 @@ espectre:
   id: espectre_csi
   detection_algorithm: ${espectre_detection_algorithm}
   traffic_generator_mode: ${espectre_traffic_generator_mode}
-  direct_api: ${espectre_direct_api}
+#  direct_api: ${espectre_direct_api}
 
-  threshold_number:
-    name: "Motion Threshold"
+binary_sensor:
+  - platform: espectre
+    motion:
+      name: "Motion"
+      id: espectre_motion
+      on_press:
+        then:
+          # wake the screen
+          - script.execute:
+              id: wakeup
+              reset_timer: true
+          # display the motion sensor icon
+          - script.execute:
+              id: refresh_relays
+              relay_mask: 2
+      on_release:
+        then:
+          # hide the motion sensor icon
+          - script.execute:
+              id: refresh_relays
+              relay_mask: 2
+    calibrating:
+      name: "Calibrating"
 
-  motion_sensor:
-    id: espectre_motion
-    name: "ESPectre Motion"
+sensor:
+  - platform: espectre
+    movement:
+      name: "Movement Score"
+    diagnostics:
+      id: espectre_diagnostics
+      generator_rate:
+        name: "Generator Rate"
+      traffic_tx_rate:
+        name: "Traffic TX Rate"
+      traffic_rx_rate:
+        name: "Traffic RX Rate"
+      csi_accepted_rate:
+        name: "CSI Accepted Rate"
+      csi_occupancy:
+        name: "CSI Temporal Occupancy"
+
+button:
+  - platform: template
+    name: "Refresh Diagnostics"
+    entity_category: diagnostic
     on_press:
-      then:
-        # wake the screen
-        - script.execute:
-            id: wakeup
-            reset_timer: true
-        # display the motion sensor icon
-        - script.execute:
-            id: refresh_relays
-            relay_mask: 2
-    on_release:
-      then:
-        # hide the motion sensor icon
-        - script.execute:
-            id: refresh_relays
-            relay_mask: 2
-
+      - component.update: espectre_diagnostics
+  - platform: espectre
+    name: "Recalibrate"
+    
+select:
+  - platform: espectre
+    name: "CSI Traffic Source"
+      
 ota:
   # Sensing is paused when an OTA starts (ota_std.on_begin -> stop_all, see below).
   # A failed or aborted OTA does not reboot the panel, so resume sensing here.
