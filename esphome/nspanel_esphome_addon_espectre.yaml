@@ -17,7 +17,7 @@ substitutions:
 #  espectre_ref: "3.0.0"                          # ESPectre release this add-on was tested with (override at your own risk)
   espectre_traffic_generator_mode: "wifi_raw"    # ping, dns, dns_tcp, wifi_raw or external
   espectre_detection_algorithm: "high_accuracy"  # high_accuracy or lightweight
-  espectre_direct_api: "true"                    # see ESPectre documentation
+##  espectre_direct_api: "true"                    # see ESPectre documentation
 
 esphome:
   build_flags:
@@ -101,7 +101,7 @@ script:
           ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "Add-on 'ESPectre motion detection'");
           ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Traffic generator: %s", "${espectre_traffic_generator_mode}");
           ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Detection algorithm: %s", "${espectre_detection_algorithm}");
-          ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Direct API: %s", "${espectre_direct_api}");
+ ##         ESP_LOGCONFIG("${TAG_ADDON_ESPECTRE}", "  Direct API: %s", "${espectre_direct_api}");
 
   # wait until platform ready - pause sensing in early boot
   - id: !extend boot_early_routines
@@ -136,4 +136,5 @@ script:
           if (chip_states[CHIP_IDX_RELAY2].visible == motion) return;
           chip_states[CHIP_IDX_RELAY2].visible = motion;
           chip_render(CHIP_IDX_RELAY2);
+       
 ...
