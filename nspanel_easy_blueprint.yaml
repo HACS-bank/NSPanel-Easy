@@ -416,23 +416,27 @@ blueprint:
 
             *Only one entity may be selected.*
           default: *selector_entity_single_default_empty
+          collapsed: true
           selector: &selector_value_entity
             entity:
               multiple: *selector_entity_single_multiple
         home_value01_label_color:
           name: Home page - Entity State 01 - Text color
           description: *description_text_color
+          collapsed: true
           default: &default_home_value_color [200, 204, 200]
           selector: *color_selector
         home_value01_icon:
           name: Home page - Entity State 01 - Icon
           description: &description_icon_automatic_default >
             ***Icon Display:** If not specified, an attribute-defined icon will be used, if available. Otherwise, no icon will be shown.*
+          collapsed: true
           default: []
           selector: *selector_icon
         home_value01_icon_color:
           name: Home page - Entity State 01 - Icon color
           description: *description_icon_color
+          collapsed: true
           default: *default_home_value_color
           selector: *color_selector
         home_value01_graph:
@@ -443,6 +447,7 @@ blueprint:
 
 
             *Only sensors with a `state_class` of `measurement` or `measurement_angle` have the mean statistics used by the graph. For other entities the value is not tappable.*
+          collapsed: true
           default: false
           selector: &selector_home_value_graph
             boolean: {}
