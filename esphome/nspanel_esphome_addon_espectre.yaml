@@ -23,42 +23,30 @@ esphome:
   build_flags:
     - -D NSPANEL_EASY_ADDON_ESPECTRE
 
-external_components:
-  - source:
-      type: git
-      url: https://github.com/francescopace/espectre
-      ref: ${espectre_ref}
-      path: src/cpp/frontend/esphome/components
-    components: [espectre]
-
-espectre:
-  id: espectre_csi
+select:
   detection_algorithm: ${espectre_detection_algorithm}
   traffic_generator_mode: ${espectre_traffic_generator_mode}
   direct_api: ${espectre_direct_api}
 
-  threshold_number:
-    name: "Motion Threshold"
-
-  motion_sensor:
-    id: espectre_motion
-    name: "ESPectre Motion"
-    on_press:
-      then:
-        # wake the screen
-        - script.execute:
-            id: wakeup
-            reset_timer: true
-        # display the motion sensor icon
-        - script.execute:
-            id: refresh_relays
-            relay_mask: 2
-    on_release:
-      then:
-        # hide the motion sensor icon
-        - script.execute:
-            id: refresh_relays
-            relay_mask: 2
+motion_sensor:
+  id: espectre_motion
+  name: "ESPectre Motion"
+  on_press:
+    then:
+      # wake the screen
+      - script.execute:
+          id: wakeup
+          reset_timer: true
+      # display the motion sensor icon
+      - script.execute:
+          id: refresh_relays
+          relay_mask: 2
+  on_release:
+    then:
+      # hide the motion sensor icon
+      - script.execute:
+          id: refresh_relays
+          relay_mask: 2
 
 ota:
   # Sensing is paused when an OTA starts (ota_std.on_begin -> stop_all, see below).
