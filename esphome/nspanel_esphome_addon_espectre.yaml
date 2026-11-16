@@ -26,10 +26,9 @@ esphome:
 select:
   detection_algorithm: ${espectre_detection_algorithm}
   traffic_generator_mode: ${espectre_traffic_generator_mode}
-  direct_api: ${espectre_direct_api}
 
-motion_sensor:
-  id: espectre_motion
+binary_sensor:
+  id: motion
   name: "ESPectre Motion"
   on_press:
     then:
@@ -47,6 +46,16 @@ motion_sensor:
       - script.execute:
           id: refresh_relays
           relay_mask: 2
+
+If espectre_direct_api = "true" then
+external_components:
+  - source:
+      type: git
+      url: https://github.com/francescopace/espectre
+      path: src/cpp/frontend/esphome/components
+    components: [espectre_direct]
+endif
+
 
 ota:
   # Sensing is paused when an OTA starts (ota_std.on_begin -> stop_all, see below).
@@ -91,10 +100,9 @@ script:
   - id: !extend refresh_relays
     then:
       - lambda: |-
-          // chip_relay2 is repurposed to mirror the ESPectre motion sensor
-          // instead of relay 2's own state. The built-in relay 2 branch is
-          // excluded at build time (NSPANEL_EASY_ADDON_ESPECTRE), so this is
-          // the only writer of that chip.
+          // chip_relay2 is repurposed to mirror the motion sensor instead of the state of relay 2.
+          // The built-in relay 2 branch is excluded at build time (NSPANEL_EASY_ADDON_ESPECTRE),
+          // so this is the only writer of that chip.
           if (system_flags.tft_upload_active) return;  // Skip refresh if TFT update is in progress
           if (!(relay_mask & 2)) return;
           const bool motion = espectre_motion->state;
