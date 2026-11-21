@@ -36,7 +36,7 @@ binary_sensor:
         # wake the screen
         - script.execute:
           id: wakeup
-            reset_timer: true
+          reset_timer: true
        # display the motion sensor icon
        - script.execute:
            id: refresh_relays
