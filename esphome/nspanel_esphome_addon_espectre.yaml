@@ -33,19 +33,19 @@ binary_sensor:
       id: espectre_motion
       name: "ESPectre Motion"
       on_press:
-          # wake the screen
-          - script.execute:
-              id: wakeup
-              reset_timer: true
-          # display the motion sensor icon
-          - script.execute:
-              id: refresh_relays
-              relay_mask: 2
+        # wake the screen
+        - script.execute:
+          id: wakeup
+            reset_timer: true
+       # display the motion sensor icon
+       - script.execute:
+           id: refresh_relays
+           relay_mask: 2
       on_release:
-          # hide the motion sensor icon
-          - script.execute:
-              id: refresh_relays
-              relay_mask: 2
+        # hide the motion sensor icon
+       - script.execute:
+         id: refresh_relays
+         relay_mask: 2
     calibrating:
       name: "Calibration Active"
 
@@ -106,7 +106,7 @@ button:
     entity_category: diagnostic
     on_press:
       - component.update: espectre_diagnostics
-      
+
 ota:
   # Sensing is paused when an OTA starts (ota_std.on_begin -> stop_all, see below).
   - id: !extend ota_std
