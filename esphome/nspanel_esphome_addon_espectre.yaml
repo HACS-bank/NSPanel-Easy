@@ -35,17 +35,17 @@ binary_sensor:
       on_press:
         # wake the screen
         - script.execute:
-          id: wakeup
-          reset_timer: true
+            id: wakeup
+            reset_timer: true
         # display the motion sensor icon
         - script.execute:
-          id: refresh_relays
-          relay_mask: 2
+            id: refresh_relays
+            relay_mask: 2
       on_release:
         # hide the motion sensor icon
         - script.execute:
-          id: refresh_relays
-          relay_mask: 2
+            id: refresh_relays
+            relay_mask: 2
     calibrating:
       name: "Calibration Active"
 
